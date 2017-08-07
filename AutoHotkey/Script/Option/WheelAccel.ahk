@@ -1,22 +1,34 @@
-﻿WheelUp::wheelaccel(0)
-WheelDown::wheelaccel(1)
+﻿WheelUp::wheelaccel(1)
+WheelDown::wheelaccel(0)
 
 wheelaccel(ud){
-	global wheelaccel_vol
+	global wheelaccelVol
+	global wheelaccelCrtUd
 	wheeltime := 500
 	wheelbase := 1.6
-
-	wheelud := ud ? "WheelDown" : "WheelUp"
+	
+	;;回転方向
+	wheelkey :=  % ud ? "WheelUp" : "WheelDown"
+	
+	;;反転を検知
+	if(wheelaccelCrtUd != ud){
+		wheelaccelVol := 0
+		wheelaccelCrtUd := ud
+	}
+	
+	;;リセットタイマーのセット
 	SetTimer, wheelaccelini, % -1 * wheeltime
 	
-	accel := wheelbase ** wheelaccel_vol
+	;;ホイールスクロール
+	accel := wheelbase ** wheelaccelVol
 	Loop, %accel%
 	{
-		Send,{%wheelud%}
+		Send,{%wheelkey%}
 	}
-	wheelaccel_vol++
+	wheelaccelVol++
 }
 
 wheelaccelini(){
 	global wheelaccel_vol := 0
+	global wheelaccelCrtUd := 0
 }
