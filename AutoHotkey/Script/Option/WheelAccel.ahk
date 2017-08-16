@@ -5,14 +5,13 @@ wheelaccel(ud){
 	global wheelaccelVol
 	global wheelaccelCrtUd
 	wheeltime := 500
-	wheelbase := 1.6
 	
 	;;回転方向
 	wheelkey :=  % ud ? "WheelUp" : "WheelDown"
 	
 	;;反転を検知
 	if(wheelaccelCrtUd != ud){
-		wheelaccelVol := 0
+		wheelaccelVol := 1
 		wheelaccelCrtUd := ud
 	}
 	
@@ -20,8 +19,7 @@ wheelaccel(ud){
 	SetTimer, wheelaccelini, % -1 * wheeltime
 	
 	;;ホイールスクロール
-	accel := wheelbase ** wheelaccelVol
-	Loop, %accel%
+	Loop, %wheelaccelVol%
 	{
 		Send,{%wheelkey%}
 	}
@@ -29,6 +27,6 @@ wheelaccel(ud){
 }
 
 wheelaccelini(){
-	global wheelaccel_vol := 0
+	global wheelaccelVol := 1
 	global wheelaccelCrtUd := 0
 }
